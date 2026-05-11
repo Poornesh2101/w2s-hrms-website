@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap');
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+@font-face {
+  font-family: 'Lufga';
+  src: url('public/Lufga.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+}
+body {
+  font-family: 'Lufga','Sora', sans-serif;
+}

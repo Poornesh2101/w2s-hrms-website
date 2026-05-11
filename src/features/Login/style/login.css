@@ -1,0 +1,165 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Sora', sans-serif; background-color: #ebedf1; }
+
+/* [MODIFIED] Form groups for tighter label/input/error structure */
+.a-form-group {
+  margin-bottom: 20px; /* Reduced to provide closer layout */
+}
+
+.a-label {
+  font-size: 13px; font-weight: 600; color: #555;
+  display: block; margin-bottom: 6px;
+}
+
+/* [NEW] Wrapper class for text boxes with icons */
+.a-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* [NEW] Styling for icons placed inside the text boxes */
+.a-input-wrapper .a-input-icon {
+  position: absolute;
+  left: 14px;
+  color: #adb5bd;
+  pointer-events: none;
+}
+
+/* [MODIFIED] White Text Boxes with padding to accommodate the icon */
+.a-input {
+  width: 100%; padding: 13px 16px; border-radius: 11px;
+  border: 1px solid #dde1e7; background: #ffffff; /* Solid White */
+  font-size: 14px; font-family: inherit; outline: none;
+  transition: all 0.2s; color: #1a1a2e;
+  padding-left: 44px; /* Default left padding for the icon */
+}
+.a-input:focus { border-color: #6C3FF5; }
+.a-input::placeholder { color: #8a92a6; }
+.a-input.error-ring { border-color: #e74c3c; }
+
+/* [MODIFIED] Specific padding for inputs with both left icon and right eye-toggle icon */
+.a-input-wrapper .a-input[type="password"],
+.a-input-wrapper .a-input[type="text"] {
+    padding-right: 44px; /* Space for the right toggle icon */
+}
+
+/* [MODIFIED] Plain text error message (Pulled up tighter) */
+.a-err {
+  font-size: 13px;
+  color: #c0392b; /* Red text */
+  margin-top: 4px; /* Reduced margin to appear closely under the box */
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.a-ok {
+  font-size: 13px;
+  color: #1a7f45; /* Green text */
+  margin-top: 6px;
+  font-weight: 500;
+}
+
+.a-btn {
+  width: 100%; padding: 14px; border-radius: 11px;
+  background: #1a1a2e; color: #fff; border: none;
+  font-size: 14px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: background 0.2s, transform 0.1s;
+}
+.a-btn:hover:not(:disabled) { background: #2e2e50; transform: translateY(-1px); }
+.a-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+.a-btn-cancel {
+  width: 100%; padding: 14px; border-radius: 11px;
+  background: #f1f3f5; color: #495057; border: none;
+  font-size: 14px; font-weight: 700; font-family: inherit;
+  cursor: pointer; transition: background 0.2s;
+  margin-top: 10px;
+}
+.a-btn-cancel:hover:not(:disabled) { background: #e2e6ea; }
+
+/* Links */
+.a-link { color: #6C3FF5; text-decoration: none; font-weight: 600; cursor: pointer; }
+.a-link:hover { text-decoration: underline; }
+
+/* Red Forgot Password Link */
+.a-link-red { color: #e74c3c; text-decoration: none; font-weight: 600; cursor: pointer; }
+.a-link-red:hover { text-decoration: underline; }
+
+.toggle-pw {
+  background: none; border: none; cursor: pointer;
+  color: #adb5bd; display: flex; align-items: center; padding: 0;
+  transition: color 0.15s; position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+}
+.toggle-pw:hover { color: #6C3FF5; }
+
+/* [MODIFIED] 4-Digit OTP Cells with added shadow */
+.otp-row { display: flex; gap: 14px; justify-content: center; margin-bottom: 24px; }
+.otp-cell {
+  width: 58px; height: 64px; border-radius: 11px;
+  border: 1px solid #dde1e7; background: #ffffff; /* Solid White */
+  font-size: 24px; font-weight: 700; font-family: inherit;
+  text-align: center; outline: none; color: #1a1a2e;
+  transition: all 0.2s;
+  /* Added Shadow */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.otp-cell:focus {
+  border-color: #6C3FF5;
+  box-shadow: 0 4px 12px rgba(108, 63, 245, 0.15); /* Tinted shadow on focus */
+}
+
+.char-panel {
+  flex: 1.2; background: transparent;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: flex-end;
+  position: relative; overflow: hidden;
+  padding: 40px 32px 0; min-width: 340px;
+}
+.form-panel {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 48px 52px; background: rgba(255, 255, 255, 0.25);
+  border-left: 1px solid rgba(255, 255, 255, 0.3);
+}
+.mobile-logo-wrap {
+  display: none;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+@media (max-width: 850px) {
+
+  .char-panel {
+    display: none;
+  }
+
+  .form-panel {
+    width: 100%;
+    padding: 40px 24px;
+    border-left: none;
+  }
+
+  .mobile-logo-wrap {
+    display: flex;
+  }
+
+  div[style*="maxWidth: 1060"] {
+    max-width: 95% !important;
+    min-height: auto !important;
+    margin: 20px 0;
+  }
+}
+@media (max-width: 400px) {
+  .otp-row {
+    gap: 8px;
+  }
+  .otp-cell {
+    width: 48px;
+    height: 56px;
+    font-size: 20px;
+  }
+}

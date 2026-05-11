@@ -1,0 +1,90 @@
+.toast-container {
+  position: fixed;
+  top: 24px;
+  right: 24px;
+  /* Glassmorphism Background & Blur */
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  /* Glass border & subtle shadow */
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  width: 320px;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.toast-slide-in {
+  animation: slideIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.toast-slide-out {
+  animation: slideOut 0.3s ease-in forwards;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(120%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes slideOut {
+  from { transform: translateX(0); opacity: 1; }
+  to { transform: translateX(120%); opacity: 0; }
+}
+
+.toast-content {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  gap: 12px;
+}
+
+.toast-message {
+  flex: 1;
+  font-size: 14px;
+  font-weight: 600;
+  color: #1a1a2e; /* Keeping your dark navy text for readability */
+  line-height: 1.4;
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #555; /* Darkened slightly for the glass background */
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  transition: all 0.2s;
+  border-radius: 6px;
+}
+
+.toast-close:hover {
+  color: #1a1a2e;
+  /* Translucent white hover instead of solid grey */
+  background: rgba(255, 255, 255, 0.5);
+}
+
+/* The track for the timer */
+.toast-progress {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.3); /* Transparent track */
+  width: 100%;
+}
+
+/* The shrinking timer bar */
+.toast-progress-bar {
+  height: 100%;
+  width: 100%;
+  animation: shrinkTimer linear forwards;
+}
+
+/* Kept your core palette colors for the actual slider so it grabs attention */
+.toast-progress-bar.error { background: #e74c3c; }
+.toast-progress-bar.success { background: #22c55e; }
+
+@keyframes shrinkTimer {
+  from { width: 100%; }
+  to { width: 0%; }
+}
