@@ -1,7 +1,7 @@
 import  { useState } from "react";
-import Layout from "../components/Layout";
+import Layout from "../components/Layout.jsx";
 import { ViewIcon, ViewOffIcon, Mail02Icon, SquareLock02Icon } from "hugeicons-react";
-import Toast from "../components/Toast";
+import Toast from "../components/Toast.jsx";
 
 export default function Login({ onForgot, onSuccess }) {
   const [email, setEmail]       = useState("");
@@ -13,16 +13,14 @@ export default function Login({ onForgot, onSuccess }) {
 
   const submit = async (e) => {
     e.preventDefault();
-    if (!email.trim() || !password.trim()) {
-      setError("Please enter your registered work email and password.");
-      return;
-    }
-    setError(""); setLoading(true);
+    setError("");
+    setLoading(true);
+
     await new Promise(r => setTimeout(r, 400));
 
-    // Updated mock for professional HRMS testing
-    if (email === "hr@hrms.com" && password === "HrmsPassword") onSuccess();
-    else setError("Invalid credentials. Please try again or contact IT.");
+    // BYPASS CHECK: This will let ANY email/password combination in
+    onSuccess();
+
     setLoading(false);
   };
 

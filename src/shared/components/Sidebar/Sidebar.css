@@ -1,0 +1,323 @@
+/* ─── Keyframes ─────────────────────────────────────────────────────────── */
+@keyframes rubberExpand {
+    0%   { width: 64px; }
+    40%  { width: 275px; }
+    70%  { width: 245px; }
+    100% { width: 255px; }
+}
+
+@keyframes rubberCollapse {
+    0%   { width: 255px; }
+    40%  { width: 48px; }
+    70%  { width: 70px; }
+    100% { width: 64px; }
+}
+
+/* ─── Wrapper ────────────────────────────────────────────────────────────── */
+.sb-wrapper {
+    height: 96vh;
+    margin: 2vh;
+    display: flex;
+    flex-shrink: 0;
+    z-index: 50;
+    position: relative;
+}
+
+/* ─── Glass Sidebar ──────────────────────────────────────────────────────── */
+.sb-sidebar {
+    height: 100%;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    animation: rubberCollapse 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+.sb-sidebar.expanded {
+    animation: rubberExpand 0.7s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+/* glass bg lives on pseudo — never clips children */
+.sb-sidebar::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(223, 227, 230, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* ─── Header ─────────────────────────────────────────────────────────── */
+.sb-header {
+    height: 72px;
+    display: flex;
+    align-items: center;
+    padding: 0 13px;
+    flex-shrink: 0;
+    gap: 0;
+    overflow: hidden;
+}
+/* ─── NEW: Header Toggle (Inside arrow) ──────────────────────────────────── */
+.sb-header-toggle {
+    background: transparent;
+    border: none;
+    color: #4b5563;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px;
+    border-radius: 8px;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sb-header-toggle:hover {
+    background: rgba(255, 255, 255, 0.6);
+    color: #1f2937;
+}
+
+/* Hide the inside toggle when the sidebar is collapsed */
+.sb-wrapper:not(.expanded) .sb-header-toggle {
+    display: none;
+}
+
+/* ─── Logo ───────────────────────────────────────────────────────────────── */
+.sb-logo-area {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+    white-space: nowrap;
+}
+
+.sb-wrapper.expanded .sb-logo-area {
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.3s 0.3s ease;
+}
+
+.sb-logo-icon {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    flex-shrink: 0;
+    border-radius: 10px;
+}
+
+.sb-logo-fallback {
+    display: flex;
+    align-items: center;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: #1f2937;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+}
+
+/* ─── Logo collapsed icon — shows only when collapsed ───────────────────── */
+.sb-logo-collapsed {
+    display: none;
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+    border-radius: 8px;
+    cursor: pointer;
+    margin: 0 auto;
+    flex-shrink: 0;
+}
+
+.sb-wrapper:not(.expanded) .sb-logo-area {
+    display: none;
+}
+
+.sb-wrapper:not(.expanded) .sb-logo-collapsed {
+    display: block;
+}
+
+
+/* ─── Toggle Button — on right edge of sidebar ───────────────────────────── */
+.sb-toggle-btn {
+    position: absolute;
+    right: -14px;                   /* straddles the sidebar right border */
+    top: 36px;                      /* vertically aligned with header center */
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(223, 227, 230, 0.8);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    cursor: pointer;
+    color: #4b5563;
+    outline: none;
+    padding: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: color 0.2s ease, background 0.2s ease;
+    z-index: 60;
+}
+
+.sb-toggle-btn:hover {
+    color: #1f2937;
+    background: rgba(255,255,255,0.9);
+}
+
+.sb-toggle-btn svg {
+    display: block;
+    transition: transform 0.5s cubic-bezier(0.5, 1.5, 0.4, 1);
+}
+
+.sb-wrapper:not(.expanded) .sb-toggle-btn svg {
+    transform: rotate(180deg);
+}
+.sb-wrapper.expanded .sb-toggle-btn {
+    display: none !important;
+}
+
+/* ─── Nav scroll ─────────────────────────────────────────────────────────── */
+.sb-scroll {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 16px;
+    scrollbar-width: none;
+}
+.sb-scroll::-webkit-scrollbar { display: none; }
+
+/* ─── Menu ───────────────────────────────────────────────────────────────── */
+.sb-menu {
+    list-style: none;
+    padding: 0 10px;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+/* shift all icons 2px right in collapsed */
+.sb-wrapper:not(.expanded) .sb-menu {
+    padding: 0 8px 0 12px;
+}
+
+/* ─── Tooltip — fixed position, escapes sidebar clip ────────────────────── */
+.sb-menu-item {
+    position: relative;
+}
+
+.sb-tooltip {
+    position: fixed;
+    left: 76px;                      /* just past collapsed sidebar edge */
+    transform: translateY(-50%) translateX(-4px);
+    background: #1f2937;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 8px;
+    white-space: nowrap;
+    pointer-events: none;
+    z-index: 9999;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    opacity: 1;
+    animation: tooltipIn 0.15s ease forwards;
+}
+
+@keyframes tooltipIn {
+    from { opacity: 0; transform: translateY(-50%) translateX(-4px); }
+    to   { opacity: 1; transform: translateY(-50%) translateX(0); }
+}
+
+.sb-tooltip::before {
+    content: '';
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%);
+    border: 5px solid transparent;
+    border-right-color: #1f2937;
+}
+
+/* ─── Item header ────────────────────────────────────────────────────────── */
+.sb-item-header {
+    display: flex;
+    align-items: center;
+    padding: 5px;
+    cursor: pointer;
+    color: #4b5563;
+    border-radius: 14px;
+    background: transparent;
+    transition: background 0.2s ease, color 0.2s ease;
+    /* always centered — works for both 64px and 255px */
+    justify-content: flex-start;
+    overflow: hidden;
+}
+
+/* collapsed: center the icon */
+.sb-wrapper:not(.expanded) .sb-item-header {
+    justify-content: center;
+}
+
+/* hover — subtle bg in expanded, icon circle in collapsed */
+.sb-wrapper.expanded .sb-item-header:hover {
+    background: rgba(255, 255, 255, 0.48);
+    color: #1f2937;
+}
+
+.sb-wrapper:not(.expanded) .sb-item-header:hover .sb-icon-wrap {
+    background: rgba(255, 255, 255, 0.62);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.sb-wrapper:not(.expanded) .sb-item-header:hover {
+    color: #1f2937;
+}
+
+/* ─── Icon wrap ──────────────────────────────────────────────────────────── */
+.sb-icon-wrap {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: background 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ─── Item text ──────────────────────────────────────────────────────────── */
+.sb-item-text {
+    margin-left: 8px;
+    font-weight: 500;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    max-width: 0;
+    opacity: 0;
+    transform: translateX(-6px);
+    pointer-events: none;
+    transition:
+        max-width 0.4s 0.05s cubic-bezier(0.25, 1, 0.5, 1),
+        opacity   0.25s 0.15s ease,
+        transform 0.35s 0.1s cubic-bezier(0.4, 1.2, 0.2, 1);
+}
+
+.sb-wrapper.expanded .sb-item-text {
+    max-width: 160px;
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: auto;
+}

@@ -1,5 +1,5 @@
 import  { useState } from "react";
-import Layout from "../components/Layout";
+import Layout from "../components/Layout.jsx";
 import { ArrowLeft01Icon, Mail02Icon } from "hugeicons-react";
 
 export default function ForgotPassword({ onBack, onSent }) {
@@ -21,7 +21,7 @@ export default function ForgotPassword({ onBack, onSent }) {
     await new Promise(r => setTimeout(r, 600));
     // Updated mock for professional testing
     if (email === "employee@hrms.com") onSent(email);
-    else setError("This email is not registered. Please contact HR.");
+    else setError("This email is not registered. Please contact Hr.");
     setLoading(false);
   };
 

@@ -22,7 +22,7 @@ export default function Layout({ children, charProps = {} }) {
           <div className="dot-grid" />
           <div style={{ position: "absolute", top: 32, left: 36, zIndex: 10 }}>
             <img src="/logo.svg" alt="Logo" style={{ height: 100 }}
-              onError={e => { e.target.style.display = "none"; }} />
+                 onError={e => { e.target.style.display = "none"; }} />
           </div>
           <div style={{ position: "relative", zIndex: 5 }}>
             <CharacterScene {...charProps} />
@@ -36,7 +36,7 @@ export default function Layout({ children, charProps = {} }) {
             {/* [NEW] Mobile-only Logo: Centered at the top */}
             <div className="mobile-logo-wrap">
               <img src="/logo.svg" alt="Logo" style={{ height: 100 }}
-                onError={e => { e.target.style.display = "none"; }} />
+                   onError={e => { e.target.style.display = "none"; }} />
             </div>
 
             {children}

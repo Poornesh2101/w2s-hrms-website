@@ -1,5 +1,5 @@
 import "react";
-import Layout from "../components/Layout";
+import Layout from "../components/Layout.jsx";
 import { DotLottieReact } from '@lottiefiles/dotlottie-react';
 
 export default function Success({ onLogin }) {
