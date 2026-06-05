@@ -22,6 +22,7 @@ const MainLayout = ({ children }) => (
 export default function App() {
     const [view, setView] = useState("login");
     const [email, setEmail] = useState("");
+    const [otp, setOtp] = useState("");
 
     return (
         <div className="app-container">
@@ -34,10 +35,11 @@ export default function App() {
             )}
             {view === "otp" && (
                 <OtpVerification email={email} onBack={() => setView("forgot")}
-                    onVerified={() => setView("update-pw")} />
+                    onVerified={code => { setOtp(code); setView("update-pw"); }} />
             )}
             {view === "update-pw" && (
-                <UpdatePassword onDone={() => setView("success")} onCancel={() => setView("login")} />
+                <UpdatePassword email={email} otp={otp}
+                    onDone={() => setView("success")} onCancel={() => setView("login")} />
             )}
             {view === "success" && (
                 <Success onLogin={() => setView("login")} />

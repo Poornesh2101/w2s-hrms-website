@@ -1,5 +1,6 @@
 import  { useState } from "react";
 import Layout from "../components/Layout.jsx";
+import { login as loginApi } from "../api.js";
 import { ViewIcon, ViewOffIcon, Mail02Icon, SquareLock02Icon } from "hugeicons-react";
 import Toast from "../components/Toast.jsx";
 
@@ -14,14 +15,22 @@ export default function Login({ onForgot, onSuccess }) {
   const submit = async (e) => {
     e.preventDefault();
     setError("");
+
+    if (!email || !password) {
+      setError("Email and password are required.");
+      return;
+    }
+
     setLoading(true);
 
-    await new Promise(r => setTimeout(r, 400));
-
-    // BYPASS CHECK: This will let ANY email/password combination in
-    onSuccess();
-
-    setLoading(false);
+    try {
+      const data = await loginApi(email, password);
+      onSuccess(data.access_token);
+    } catch (err) {
+      setError(err.message || "Login failed. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -62,7 +71,7 @@ export default function Login({ onForgot, onSuccess }) {
                 placeholder="••••••••" value={password} onChange={e => setPassword(e.target.value)}
                 style={{ paddingRight: 44 }} />
               <button type="button" className="toggle-pw" onClick={() => setShow(v => !v)}>
-                {show ? <ViewOffIcon size={18} /> : <ViewIcon size={18} />}
+                {show ? <ViewIcon size={18} /> : <ViewOffIcon size={18} />}
               </button>
             </div>
 
