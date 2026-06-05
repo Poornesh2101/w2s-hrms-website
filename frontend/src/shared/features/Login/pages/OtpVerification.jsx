@@ -1,9 +1,9 @@
 import  { useState, useEffect, useRef } from "react";
 import Layout from "../components/Layout.jsx";
+import { verifyOtp, forgotPassword } from "../api.js";
 import { ArrowLeft01Icon } from "hugeicons-react";
 
 const OTP_LENGTH = 4; // Changed to 4 digits
-const MOCK_OTP = "1234"; // 4 digit mock
 
 export default function OtpVerification({ email, onBack, onVerified }) {
   const [otp, setOtp]         = useState(Array(OTP_LENGTH).fill(""));
@@ -48,18 +48,32 @@ export default function OtpVerification({ email, onBack, onVerified }) {
     if (code.length < OTP_LENGTH) { setError("Please enter all 4 digits."); return; }
 
     setError(""); setLoading(true);
-    await new Promise(r => setTimeout(r, 500));
 
-    if (code === MOCK_OTP) onVerified();
-    else setError("Invalid authorization code. Please check your email.");
-    setLoading(false);
+    try {
+      await verifyOtp(email, code);
+      onVerified(code);
+    } catch (err) {
+      setError(err.message || "Invalid authorization code. Please check your email.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const resend = async () => {
-    setOtp(Array(OTP_LENGTH).fill("")); setError("");
-    setResent(true); setTimer(60);
-    await new Promise(r => setTimeout(r, 800));
+    setOtp(Array(OTP_LENGTH).fill(""));
+    setError("");
+    setLoading(true);
     setResent(false);
+    setTimer(60);
+
+    try {
+      await forgotPassword(email);
+      setResent(true);
+    } catch (err) {
+      setError(err.message || "Unable to resend code. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (

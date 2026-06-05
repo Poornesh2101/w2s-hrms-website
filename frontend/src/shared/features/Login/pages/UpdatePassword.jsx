@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Layout from "../components/Layout.jsx";
+import { resetPassword } from "../api.js";
 // Added PasswordIcon to the imports
 import { ViewIcon, ViewOffIcon, CheckmarkCircle01Icon, SquareLock02Icon } from "hugeicons-react";
 
-export default function UpdatePassword({ onDone, onCancel }) {
+export default function UpdatePassword({ email, otp, onDone, onCancel }) {
   const [pw, setPw]           = useState("");
   const [pw2, setPw2]         = useState("");
   const [show, setShow]       = useState(false);
@@ -22,14 +23,22 @@ export default function UpdatePassword({ onDone, onCancel }) {
     if (!pw || !pw2) { setError("Both fields are required."); return; }
     if (!rules.every(r => r.ok)) { setError("Password doesn't meet requirements."); return; }
     if (pw !== pw2) { setError("Passwords do not match."); return; }
+    if (!email || !otp) { setError("Missing email or verification code."); return; }
 
     setError(""); setLoading(true);
-    await new Promise(r => setTimeout(r, 600));
-    onDone();
+
+    try {
+      await resetPassword({ email, otp, newPassword: pw });
+      onDone();
+    } catch (err) {
+      setError(err.message || "Unable to update password. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <Layout charProps={{ password: pw, showPassword: show }}>
+    <Layout charProps={{ password: pw, showPassword: show || show2 }}>
       <div style={{ marginBottom: 28 }}>
         <h1 style={{ fontSize: 26, fontWeight: 700, color: "#1a1a2e" }}>Set new password</h1>
         <p style={{ fontSize: 14, color: "#adb5bd", marginTop: 6 }}>
